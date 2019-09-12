@@ -1,7 +1,10 @@
 # TicTacToe
 TicTacToe with some AI
 
-<img src="https://jamxgw.am.files.1drv.com/y4mF_dQhrNnVisf8GzBKSA7-AJDT_gFzqA04-RMqsr5oJ0t-djGqig4pmGK67SBPVJYvntqbYUUilX8bNVH413jBV1gVA1bgLKgkhnBXZ0SIYVPeFuHKgaGxy1GJHoKetJ95TtZje0wKiG8CZJhxVwKPVX-ZFoDShvTPU22-ynq2jciNEK6UiXH46UAwJWXfrlGy439PSkfXh6HMthKjny1HA?width=315&height=660&cropmode=none" width="200">
+<img src="https://jamxgw.am.files.1drv.com/y4mF_dQhrNnVisf8GzBKSA7-AJDT_gFzqA04-RMqsr5oJ0t-djGqig4pmGK67SBPVJYvntqbYUUilX8bNVH413jBV1gVA1bgLKgkhnBXZ0SIYVPeFuHKgaGxy1GJHoKetJ95TtZje0wKiG8CZJhxVwKPVX-ZFoDShvTPU22-ynq2jciNEK6UiXH46UAwJWXfrlGy439PSkfXh6HMthKjny1HA?width=315&height=660&cropmode=none" width="200"> <img src="https://ytkqjg.am.files.1drv.com/y4mTcc_WmGtqY3BuOL_VlgpwyHIS-S6RKDEbVGjq9UovSFxjhbvip8qxGphxGlx6ERNUoLEaJUhT_AhXPU9Wpci8lQtxGV4WJoqEsYcERgz5qYAmloMxCrptvFnARSnBJLM87BIFXbHMkaBt-mWlj5JEClwvuEN_VkyuL4EH8SB3HPCsRoIZAjHiXxtRrOXfb8cEJH8DVFQzqVTiOx82pYajw?width=317&height=660&cropmode=none" width="200">
+
+
+
 
 This app uses the MVC architecture. It takes little effort to add / remove a UI or feature.
 
