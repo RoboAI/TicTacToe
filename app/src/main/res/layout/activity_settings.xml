@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SettingsActivity">
+
+    <Space
+        android:id="@+id/topSpace"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteY="10dp" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/textViewInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:autoSizeMaxTextSize="100sp"
+        app:autoSizeMinTextSize="12sp"
+        app:autoSizeStepGranularity="2sp"
+        app:autoSizeTextType="uniform"
+        android:gravity="center"
+        android:text="Settings"
+        android:textColor="@color/colorInfoText"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topSpace" />
+
+    <Space
+        android:id="@+id/settingsTopSpace"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewInfo" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/textViewGridSizeTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:autoSizeMaxTextSize="100sp"
+        app:autoSizeMinTextSize="12sp"
+        app:autoSizeStepGranularity="2sp"
+        app:autoSizeTextType="uniform"
+        android:gravity="center"
+        android:text="Grid Size"
+        android:textColor="#FF00AAFF"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/settingsTopSpace" />
+
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/textViewGridSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:autoSizeMaxTextSize="100sp"
+        app:autoSizeMinTextSize="30sp"
+        app:autoSizeStepGranularity="2sp"
+        app:autoSizeTextType="uniform"
+        android:gravity="bottom"
+        android:text="3 x 3"
+        android:textColor="@color/colorSettingsMenuItems"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@id/textViewGridSizeTitle"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.5"
+        app:layout_constraintStart_toEndOf="@+id/textViewGridSizeTitle"
+        app:layout_constraintTop_toTopOf="@id/textViewGridSizeTitle" />
+
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:max="8"
+        android:progress="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.421"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewGridSizeTitle"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="0.9" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/textViewWinComboTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:autoSizeMaxTextSize="100sp"
+        app:autoSizeMinTextSize="12sp"
+        app:autoSizeStepGranularity="2sp"
+        app:autoSizeTextType="uniform"
+        android:gravity="center"
+        android:text="Winning Boxes"
+        android:textColor="#FF00AAFF"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/seekBar" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/textViewWinCombo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:autoSizeMaxTextSize="100sp"
+        app:autoSizeMinTextSize="30sp"
+        app:autoSizeStepGranularity="2sp"
+        app:autoSizeTextType="uniform"
+        android:gravity="bottom"
+        android:text="3"
+        android:textColor="@color/colorSettingsMenuItems"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@id/textViewWinComboTitle"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.5"
+        app:layout_constraintStart_toEndOf="@+id/textViewWinComboTitle"
+        app:layout_constraintTop_toTopOf="@id/textViewWinComboTitle"
+        tools:layout_editor_absoluteX="130dp"
+        tools:layout_editor_absoluteY="245dp" />
+
+    <SeekBar
+        android:id="@+id/seekBarWinCombo"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:max="3"
+        android:progress="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.421"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewWinComboTitle"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="0.9"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="310dp" />
+
+
+
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/textViewDifficultyTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:autoSizeMaxTextSize="100sp"
+        app:autoSizeMinTextSize="12sp"
+        app:autoSizeStepGranularity="2sp"
+        app:autoSizeTextType="uniform"
+        android:gravity="center"
+        android:text="AI Difficulty"
+        android:textColor="#FF00AAFF"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/seekBarWinCombo" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/textViewDifficulty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:autoSizeMaxTextSize="100sp"
+        app:autoSizeMinTextSize="30sp"
+        app:autoSizeStepGranularity="2sp"
+        app:autoSizeTextType="uniform"
+        android:gravity="bottom"
+        android:text="Hard"
+        android:textColor="@color/colorSettingsMenuItems"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@id/textViewDifficultyTitle"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.5"
+        app:layout_constraintStart_toEndOf="@+id/textViewDifficultyTitle"
+        app:layout_constraintTop_toTopOf="@id/textViewDifficultyTitle"
+        tools:layout_editor_absoluteX="130dp"
+        tools:layout_editor_absoluteY="245dp" />
+
+    <SeekBar
+        android:id="@+id/seekBarDifficulty"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:max="2"
+        android:progress="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.421"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDifficultyTitle"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="0.9"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="310dp" />
+
+    <Space
+        android:id="@+id/bottomSpacer2"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@id/buttonBack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="10dp" />
+
+    <ImageButton
+        android:id="@+id/buttonBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/test_background"
+        android:onClick="onClick_Back"
+        android:src="@drawable/ic_back"
+        app:layout_constraintBottom_toTopOf="@id/bottomSpacer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="0.5" />
+
+
+    <Space
+        android:id="@+id/bottomSpacer"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="10dp" />
+</android.support.constraint.ConstraintLayout>

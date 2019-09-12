@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="width_dp">100</integer>
+    <integer name="height_dp">100</integer>
+    <item name="my_alpha" type="integer" format="float">1.0</item>
+</resources>

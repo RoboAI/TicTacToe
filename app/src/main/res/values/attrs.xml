@@ -1,0 +1,6 @@
+<resources>
+    <declare-styleable name="TictactoeCell">
+        <attr name="row" format="integer" />
+        <attr name="col" format="integer" />
+    </declare-styleable>
+</resources>

@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainGameContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".GameActivity">
+
+    <com.example.fuat.newtictactoe.GameView
+        android:id="@+id/gameContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/empty_drawable">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/topSection"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@drawable/image_border"
+            app:layout_constraintHeight_percent="0.25"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.example.fuat.newtictactoe.PlayerTurnFrame
+                android:id="@+id/playerTurnFrame"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/image_border"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent="0.50"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintWidth_percent="0.6">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/playerOBottomView"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="left"
+                    android:background="@drawable/image_border"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/player_yellow_matt"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintWidth_percent="0.50"
+                    tools:ignore="RtlHardcoded" />
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/playerOGlowView"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="left"
+                    android:background="@drawable/image_border"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/player_yellow_glow"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintWidth_percent="0.50"
+                    tools:ignore="RtlHardcoded" />
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/playerXBottomView"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="right"
+                    android:background="@drawable/image_border"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/player_red_matt"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintWidth_percent="0.50"
+                    tools:ignore="RtlHardcoded" />
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/playerXGlowView"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="right"
+                    android:background="@drawable/image_border"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/player_red_glow"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintWidth_percent="0.50"
+                    tools:ignore="RtlHardcoded" />
+
+            </com.example.fuat.newtictactoe.PlayerTurnFrame>
+
+            <com.example.fuat.newtictactoe.PlayerTurnDots
+                android:id="@+id/playerTurnDots"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/image_border"
+                app:layout_constraintEnd_toEndOf="@id/playerTurnFrame"
+                app:layout_constraintHeight_default="percent"
+                app:layout_constraintHeight_percent="0.04"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@id/playerTurnFrame"
+                app:layout_constraintTop_toBottomOf="@id/playerTurnFrame" />
+
+            <com.example.fuat.newtictactoe.WinningComboSizeView
+                android:id="@+id/textViewWinComboCount"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@drawable/image_border"
+                android:gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_default="percent"
+                app:layout_constraintHeight_percent="0.15"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <com.example.fuat.newtictactoe.TictactoeGrid
+            android:id="@+id/gameGrid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="4dp"
+            android:background="@drawable/empty_drawable"
+            android:gravity="center"
+            android:padding="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/bottomSection"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@drawable/image_border"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHeight_percent="0.25"
+            app:layout_constraintHorizontal_bias="0.5">
+
+            <SeekBar
+                android:id="@+id/musicVolume"
+                android:layout_width="149dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/image_border"
+                android:max="255"
+                android:progress="0"
+                app:layout_constraintBottom_toTopOf="@id/spaceGridBottom"
+                app:layout_constraintEnd_toStartOf="@+id/restartVolume"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <SeekBar
+                android:id="@+id/restartVolume"
+                android:layout_width="143dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/image_border"
+                android:max="255"
+                android:progress="50"
+                app:layout_constraintBottom_toTopOf="@id/spaceGridBottom"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/musicVolume" />
+
+            <View
+                android:id="@+id/spaceGridBottom"
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:background="@drawable/image_border"
+                app:layout_constraintBottom_toTopOf="@id/buttonAISwitch"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_default="percent"
+                app:layout_constraintHeight_percent="0.01"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:layout_editor_absoluteY="470dp" />
+
+            <ImageButton
+                android:id="@+id/buttonGridSettings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/test_background"
+                android:onClick="onClick_Settings"
+                android:src="@drawable/ic_settings"
+                app:layout_constraintBottom_toTopOf="@id/spaceParentBottom"
+                app:layout_constraintEnd_toStartOf="@+id/buttonAISwitch"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:layout_editor_absoluteX="34dp"
+                tools:layout_editor_absoluteY="484dp" />
+
+            <ToggleButton
+                android:id="@+id/buttonAISwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_round_normal"
+                android:checked="true"
+                android:onClick="onClick_ToggleAI"
+                app:layout_constraintBottom_toTopOf="@id/spaceParentBottom"
+                app:layout_constraintEnd_toStartOf="@+id/buttonUndoMove"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/buttonGridSettings"
+                tools:layout_editor_absoluteX="94dp"
+                tools:layout_editor_absoluteY="436dp" />
+
+
+            <ImageButton
+                android:id="@+id/buttonUndoMove"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/test_background"
+                android:onClick="onClick_UndoMove"
+                android:src="@drawable/ic_undo"
+                app:layout_constraintBottom_toTopOf="@id/spaceParentBottom"
+                app:layout_constraintEnd_toStartOf="@+id/buttonReset"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/buttonAISwitch"
+                tools:layout_editor_absoluteX="128dp"
+                tools:layout_editor_absoluteY="484dp" />
+
+            <ImageButton
+                android:id="@+id/buttonReset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/test_background"
+                android:onClick="onClick_Reset"
+                android:src="@drawable/ic_reset"
+                app:layout_constraintBottom_toTopOf="@id/spaceParentBottom"
+                app:layout_constraintEnd_toStartOf="@+id/buttonBack"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/buttonUndoMove"
+                tools:layout_editor_absoluteX="223dp"
+                tools:layout_editor_absoluteY="484dp" />
+
+            <ImageButton
+                android:id="@+id/buttonBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/test_background"
+                android:onClick="onClick_Back"
+                android:src="@drawable/ic_back"
+                app:layout_constraintBottom_toTopOf="@id/spaceParentBottom"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/buttonReset"
+                tools:layout_editor_absoluteX="317dp"
+                tools:layout_editor_absoluteY="484dp" />
+
+
+            <View
+                android:id="@+id/spaceParentBottom"
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:background="@drawable/image_border"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_default="percent"
+                app:layout_constraintHeight_percent="0.01"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:layout_editor_absoluteY="10dp" />
+        </android.support.constraint.ConstraintLayout>
+
+        <com.example.fuat.newtictactoe.BackgroundAux
+            android:id="@+id/viewBackgroundAux"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.example.fuat.newtictactoe.GameView>
+
+
+</android.support.constraint.ConstraintLayout>

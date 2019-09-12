@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <color name="colorInfoText">#FF8548</color>
+    <color name="colorCellPlayed">#FFDDDDDD</color>
+    <color name="colorCellBlank">#40460099</color>
+    <color name="colorWonX">#AAFF0000</color>
+    <color name="colorWonO">#AAFFFF00</color>
+    <color name="colorWon22">#0F8548</color>
+    <color name="colorGridLines">@android:color/white</color>
+
+    <color name="colorGameContainer">#FFEEEEEE</color>
+    <color name="colorMenuItems">#FFFFFFFF</color>
+    <color name="colorSettingsMenuItems">#FFAAAAAA</color>
+
+    <color name="colorBackgroundCircle1">#40660099</color>
+    <color name="colorBackgroundCircle2">#40FFFFFF</color>
+    <color name="colorBackgroundCross1">#40990000</color>
+    <color name="colorBackgroundCross2">#40FFFFFF</color>
+
+
+
+</resources>
