@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".GameActivity">
 
-    <com.example.fuat.newtictactoe.BackgroundAux
+    <com.example.tictactoe.BackgroundAux
         android:id="@+id/viewBackgroundAux"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

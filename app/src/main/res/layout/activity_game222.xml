@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".GameActivity">
 
-    <com.example.fuat.newtictactoe.GameView
+    <com.example.tictactoe.GameView
         android:id="@+id/gameContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,7 +22,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintTop_toTopOf="parent">
 
-            <com.example.fuat.newtictactoe.PlayerTurnFrame
+            <com.example.tictactoe.PlayerTurnFrame
                 android:id="@+id/playerTurnFrame"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -81,9 +81,9 @@
                     app:layout_constraintWidth_percent="0.50"
                     tools:ignore="RtlHardcoded" />
 
-            </com.example.fuat.newtictactoe.PlayerTurnFrame>
+            </com.example.tictactoe.PlayerTurnFrame>
 
-            <com.example.fuat.newtictactoe.PlayerTurnDots
+            <com.example.tictactoe.PlayerTurnDots
                 android:id="@+id/playerTurnDots"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -95,7 +95,7 @@
                 app:layout_constraintStart_toStartOf="@id/playerTurnFrame"
                 app:layout_constraintTop_toBottomOf="@id/playerTurnFrame" />
 
-            <com.example.fuat.newtictactoe.WinningComboSizeView
+            <com.example.tictactoe.WinningComboSizeView
                 android:id="@+id/textViewWinComboCount"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -110,7 +110,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.example.fuat.newtictactoe.TictactoeGrid
+        <com.example.tictactoe.TictactoeGrid
             android:id="@+id/gameGrid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -257,11 +257,11 @@
                 tools:layout_editor_absoluteY="10dp" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.example.fuat.newtictactoe.BackgroundAux
+        <com.example.tictactoe.BackgroundAux
             android:id="@+id/viewBackgroundAux"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    </com.example.fuat.newtictactoe.GameView>
+    </com.example.tictactoe.GameView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
