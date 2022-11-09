@@ -93,7 +93,7 @@ public class ComboChecker {
         }
 
         //if we reached here, then it means its either a draw or game is not finished (there are empty cells)
-        //so first check for 'empty cells'
+        //so first check for empty cells
         for (int i = 0; i < maxRow; i++) {
             for (int j = 0; j < maxCol; j++) {
                 if (cells[i][j].getState() == STATE_UNUSED) {
@@ -102,7 +102,7 @@ public class ComboChecker {
             }
         }
 
-        //if all checks are false, then it means the game is a 'Draw'
+        //if all checks are false, then it means the game is a Draw
         return new GameResult(GAME_ENDED_DRAW, null);
     }
 }

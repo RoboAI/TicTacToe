@@ -1,23 +1,64 @@
 package com.example.fuat.newtictactoe;
 
 import android.graphics.Rect;
+import android.util.Log;
 
 import java.util.ArrayList;
 
-import static com.example.fuat.newtictactoe.GameGlobals.DEFAULT_AI_TURN_DELAY;
 import static com.example.fuat.newtictactoe.GameGlobals.GAME_ENDED_DRAW;
 import static com.example.fuat.newtictactoe.GameGlobals.GAME_ENDED_O_WON;
 import static com.example.fuat.newtictactoe.GameGlobals.GAME_ENDED_X_WON;
 import static com.example.fuat.newtictactoe.GameGlobals.GAME_HUMAN_VS_AI;
 import static com.example.fuat.newtictactoe.GameGlobals.GAME_NOT_ENDED;
-import static com.example.fuat.newtictactoe.GameGlobals.PLAYER_AI;
-import static com.example.fuat.newtictactoe.GameGlobals.PLAYER_HUMAN;
+//import static com.example.fuat.newtictactoe.GameGlobals.PLAYER_AI;
+//import static com.example.fuat.newtictactoe.GameGlobals.PLAYER_HUMAN;
+import static com.example.fuat.newtictactoe.GameGlobals.STATE_O;
+import static com.example.fuat.newtictactoe.GameGlobals.STATE_X;
 
 
 //TODO: this will get the current cpu time, then call getAiNextMove, then get the elapsed time.
 //TODO      then calculate how much time the timer should be set for to give the consistent delay.
 //TODO      if more than required time has elapsed, send 0 to timer.start to fire immediately.
-public class GameController {
+public class GameController implements TicTacToePlayer.IPlayerPlayedTurn {
+
+    private ArrayList<IPlayerTurn> IplayerTurn;
+    private ArrayList<IWinComboCount> IwinComboCount;
+    private ArrayList<IGrid> Igrid;
+    private ArrayList<ICellInteraction> IcellInteraction;
+    private ArrayList<IOpponent> Iopponent;
+    private ArrayList<IGameEndedCelebration> IgameEndedCelebration;
+    private ArrayList<IComboChecker> IcomboChecker;
+    private ArrayList<IUndoManager> IundoManager;
+    private ArrayList<INewGameStarted> InewGameStarted;
+    private ArrayList<IGamePauseResume> IgamePauseResume;
+    private ArrayList<IUndoCountChanged> IundoCountChanged;
+    private ArrayList<IGameIsQuitting> IgameIsQuitting;
+
+    private boolean bOpponentPlaying;
+
+    private GameModel model;
+    private int iGameType;
+
+    private boolean bAiActive;
+
+    private LocalAIPlayer playerOpponent;
+
+    public GameController(){
+        init();
+    }
+/*
+    public GameController(Context context){
+        super(context);
+
+        init();
+    }
+
+    public GameController(Context context, AttributeSet attrs) {
+        super(context, attrs);
+
+        init();
+    }*/
+
     public interface IPlayerTurn{
         void displayPlayerTurn(int player);
     }
@@ -123,47 +164,6 @@ public class GameController {
         this.model = model;
     }
 
-    private ArrayList<IPlayerTurn> IplayerTurn;
-    private ArrayList<IWinComboCount> IwinComboCount;
-    private ArrayList<IGrid> Igrid;
-    private ArrayList<ICellInteraction> IcellInteraction;
-    private ArrayList<IOpponent> Iopponent;
-    private ArrayList<IGameEndedCelebration> IgameEndedCelebration;
-    private ArrayList<IComboChecker> IcomboChecker;
-    private ArrayList<IUndoManager> IundoManager;
-    private ArrayList<INewGameStarted> InewGameStarted;
-    private ArrayList<IGamePauseResume> IgamePauseResume;
-    private ArrayList<IUndoCountChanged> IundoCountChanged;
-    private ArrayList<IGameIsQuitting> IgameIsQuitting;
-
-    private boolean bOpponentPlaying;
-
-    private MyTimer timer;
-
-    private GameModel model;
-    private int iGameType;
-
-    private boolean bAiToggle;
-
-    //TODO: PlayerAI is not used.
-    //TODO: PlayerAI should implement onPlayerTurn and respond with a move
-
-    public GameController(){
-        init();
-    }
-/*
-    public GameController(Context context){
-        super(context);
-
-        init();
-    }
-
-    public GameController(Context context, AttributeSet attrs) {
-        super(context, attrs);
-
-        init();
-    }*/
-
     private void init(){
         IplayerTurn = new ArrayList<>();
         IwinComboCount = new ArrayList<>();
@@ -178,16 +178,14 @@ public class GameController {
         IundoCountChanged = new ArrayList<>();
         IgameIsQuitting = new ArrayList<>();
 
+        playerOpponent = new LocalAIPlayer();
+        //playerOpponent.setPlayerType(PLAYER_AI);
+        playerOpponent.setPlayer(GameGlobals.PLAYER_X);
+        playerOpponent.setCallbackPlayTurn(this);
+
         iGameType = GAME_HUMAN_VS_AI;
 
-        timer = new MyTimer(new MyTimer.ITimerElapsed() {
-            @Override
-            public void onTimerElapsed(long timeNow) {
-                makeAiMove();
-            }
-        }, DEFAULT_AI_TURN_DELAY, false);
-
-        bAiToggle = false;
+        bAiActive = false;
     }
 
     public void onCLick_Settings(){
@@ -299,21 +297,21 @@ public class GameController {
     }
 
     public void startNewGame(int gridSize, int winComboCount, int difficulty){
-        timer.stop();
+        playerOpponent.abortMoveStarted();
         bOpponentPlaying = false;
 
         if(model != null){
             model.startNewGame(gridSize, winComboCount, difficulty);
-        }
 
-        //TODO: maybe these callbacks should be in the 'if' above?
-        //callbacks
-        onStartNewGame();
-        onPlayerTurn(model.getCurrentPlayer());
-        onWinComboCount();
+            //callbacks
+            onStartNewGame();
+            onWinComboCount();
+            onPlayerTurn(model.getPlayerTurn());
 
-        if(model.getCurrentPlayer() == PLAYER_AI){
-            startAiMove();
+            //TODO: maybe this can go in a new class 'players controller'
+            if(model.getPlayerTurn() == STATE_X){
+                startAiMove();
+            }
         }
     }
 
@@ -329,7 +327,7 @@ public class GameController {
             if(result != null) {
 
                 //notify others of cell clicked and accepted
-                onCellClicked(new SingleMove(row, col, model.getCurrentPlayer()));
+                onCellClicked(new SingleMove(row, col, model.getPlayerTurn()));
 
                 //check the state of the game
                 switch (result.result) {
@@ -341,10 +339,10 @@ public class GameController {
                         //TODO: this part should be in PlayerAi. nextPlayerTurn should notify PlayerAi of next player,
                         //TODO  then PlayerAi will catch this message, and call startAiMove.
                         //if next player is AI, then startAiMove()
-                        if(model.getCurrentPlayer() == PLAYER_AI && iGameType == GAME_HUMAN_VS_AI){
+                        if(model.getPlayerTurn() == STATE_X && iGameType == GAME_HUMAN_VS_AI){
                             startAiMove();
                         }
-                        else if(model.getCurrentPlayer() == PLAYER_HUMAN) {
+                        else if(model.getPlayerTurn() == STATE_O) {
                             //TODO: cant think of anything yet!!
                         }
 
@@ -368,17 +366,17 @@ public class GameController {
 
     //called from View (currently TictactoeGrid)
     public void cellClicked(int row, int col){
-        cellClicked(row, col, model.getCurrentPlayer());
+        cellClicked(row, col, model.getPlayerTurn());
     }
 
     //called for both human and AI click
     public void cellClicked(int row, int col, int player){
-        if(player == PLAYER_AI){
-            if(!bAiToggle)
-                cell_clicked(row, col, PLAYER_AI);
+        if(player == STATE_X){
+            if(!bAiActive)
+                cell_clicked(row, col, STATE_X);
         }
-        else if(player == PLAYER_HUMAN && !bOpponentPlaying){
-            cell_clicked(row, col, PLAYER_HUMAN);
+        else if(player == STATE_O && !bOpponentPlaying){
+            cell_clicked(row, col, STATE_O);
         }
     }
 
@@ -387,32 +385,25 @@ public class GameController {
         model.nextPlayerTurn();
 
         //let others know about player turn
-        onPlayerTurn(model.getCurrentPlayer());
+        onPlayerTurn(model.getPlayerTurn());
+    }
+
+    @Override
+    public void onPlayerPlayedTurn(SingleMoveAIResult aiResult) {
+        if(aiResult != null) {
+           // Log.i("ABCDEF", "onPlayerPlayedTurn: " + aiResult.player);
+            cell_clicked(aiResult.row, aiResult.col, STATE_X);
+        }else
+            Log.i("ABCDEF", "onPlayerPlayedTurn: aiResult is null");
+        bOpponentPlaying = false;
     }
 
     //TODO: this function should be in PlayerAi
     private void startAiMove(){
-        if(!bOpponentPlaying && bAiToggle) {
+        if(!bOpponentPlaying && bAiActive) {
             bOpponentPlaying = true;
-
-            if(timer != null) {
-                timer.start();
-            }
+            playerOpponent.getNextAIMove(model.getGameState());
         }
-    }
-
-    private void makeAiMove(){
-        BestMoveAIResult nextMove = TictactoeAI.getNextBestMove(
-                model.getCells(),
-                model.getiAILevel(),
-                model.getCurrentPlayer(),
-                model.getGridSize(), model.getGridSize(),
-                model.getWinComboCount());
-
-        if(nextMove != null) {
-            cell_clicked(nextMove.row, nextMove.col, PLAYER_AI);
-        }
-        bOpponentPlaying = false;
     }
 
     //TODO: find a better way for model.moveCount() < 2
@@ -426,11 +417,11 @@ public class GameController {
             onUndoCell(moves.move1);
             onUndoCell(moves.move2);
 
-            onPlayerTurn(model.getCurrentPlayer());
+            onPlayerTurn(model.getPlayerTurn());
 
             onUndoCountChanged(model.undoManager.getMovesRemaining());
 
-            if(model.getCurrentPlayer() == PLAYER_AI){
+            if(model.getPlayerTurn() == STATE_X){
                 startAiMove();
             }
 
@@ -458,12 +449,12 @@ public class GameController {
         onGameEndedCelebration(combo);
     }
 
-    public void setbAiToggle(boolean state){
-        bAiToggle = state;
+    public void setAiActive(boolean state){
+        bAiActive = state;
     }
 
     public void exitGame(){
-        timer.stop();
+        playerOpponent.abortMoveStarted();
         onGameIsQuitting();
     }
 }

@@ -1,24 +1,24 @@
 package com.example.fuat.newtictactoe;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
 
-import static com.example.fuat.newtictactoe.GameActivity.TAG;
 import static com.example.fuat.newtictactoe.GameGlobals.AI_HARD;
 import static com.example.fuat.newtictactoe.GameGlobals.AI_VERY_HARD;
 import static com.example.fuat.newtictactoe.GameGlobals.AI_MEDIUM;
 import static com.example.fuat.newtictactoe.GameGlobals.GAME_NOT_ENDED;
 import static com.example.fuat.newtictactoe.GameGlobals.GAME_NO_MATCH;
-import static com.example.fuat.newtictactoe.GameGlobals.STATE_O;
 import static com.example.fuat.newtictactoe.GameGlobals.STATE_UNUSED;
-import static com.example.fuat.newtictactoe.GameGlobals.STATE_X;
+import static com.example.fuat.newtictactoe.GameGlobals.invertPlayer;
 
-public class TictactoeAI {
+public class TictactoeAI implements GameController.INewGameStarted{
+
+    public void onNewGameStarted(GameState gameState) {
+        initialiseGridString(gameState.gridSize, gameState.gridSize);
+    }
 
     public static int counter_1 = 0;
 
@@ -26,10 +26,10 @@ public class TictactoeAI {
             GameGlobals.DEFAULT_GRID_SIZE,
             GameGlobals.DEFAULT_GRID_SIZE);
 
-    public static BestMoveAIResult getNextBestMove(TictactoeBox[][] cells, int difficulty, int player, int rowMax, int colMax, int count) {
-        ArrayList<BestMoveAIResult> bestMoves;
+    public static SingleMoveAIResult getNextBestMove(TictactoeBox[][] cells, int difficulty, int player, int rowMax, int colMax, int count) {
+        ArrayList<SingleMoveAIResult> bestMoves;
         ArrayList<TictactoeBox> unusedCells;
-        BestMoveAIResult theOne;
+        SingleMoveAIResult theOne;
 
         unusedCells = getUnusedCells(cells);
 
@@ -65,11 +65,7 @@ public class TictactoeAI {
         return array;
     }
 
-    public static int invertPlayer(int player){
-        return (player == STATE_X) ? STATE_O : STATE_X;
-    }
-
-    public static BestMoveAIResult getBestMoveByDifficulty(ArrayList<BestMoveAIResult> moves, int difficulty) {
+    public static SingleMoveAIResult getBestMoveByDifficulty(ArrayList<SingleMoveAIResult> moves, int difficulty) {
         if(moves == null || moves.size() == 0){
             return null;
         }
@@ -97,7 +93,7 @@ public class TictactoeAI {
                 index = random.nextInt(index);
                 if(index >= moves.size())
                     index = moves.size() - 1;
-                BestMoveAIResult abc = moves.get(index);
+                SingleMoveAIResult abc = moves.get(index);
                 return moves.get(index);
             }
             else {
@@ -124,14 +120,14 @@ public class TictactoeAI {
         return null;
     }
 
-    public static ArrayList<BestMoveAIResult> getNextBestMoves(TictactoeBox[][] cells, int player, int rowMax, int colMax, int count) {
-        ArrayList<BestMoveAIResult> bestMoves;
-        TreeMap<String, BestMoveAIResult> tmap = new TreeMap();
+    public static ArrayList<SingleMoveAIResult> getNextBestMoves(TictactoeBox[][] cells, int player, int rowMax, int colMax, int count) {
+        ArrayList<SingleMoveAIResult> bestMoves;
+        TreeMap<String, SingleMoveAIResult> tmap = new TreeMap();
 
         GameResult result;
         int opponent = invertPlayer(player);
 
-        BestMoveAIResult nextMove;
+        SingleMoveAIResult nextMove;
 
         counter_1 = 0;
 
@@ -175,7 +171,7 @@ public class TictactoeAI {
         //if no good moves found, just return a random empty cell
         if(bestMoves == null) {
             bestMoves = new ArrayList<>();
-            bestMoves.add(new BestMoveAIResult(player, 1, getRandomEmptyCell(cells)));
+            bestMoves.add(new SingleMoveAIResult(player, 1, getRandomEmptyCell(cells)));
             return bestMoves;
         }
 
@@ -183,9 +179,9 @@ public class TictactoeAI {
         return bestMoves;
     }
 
-    public static ArrayList<BestMoveAIResult> checkFor2WayWin(TreeMap<String, BestMoveAIResult> tMap, TictactoeBox[][] cells, int player, int rowMax, int colMax, int count){
-        ArrayList<BestMoveAIResult> bestMoves = null;
-        TreeMap<String, BestMoveAIResult> tmap;
+    public static ArrayList<SingleMoveAIResult> checkFor2WayWin(TreeMap<String, SingleMoveAIResult> tMap, TictactoeBox[][] cells, int player, int rowMax, int colMax, int count){
+        ArrayList<SingleMoveAIResult> bestMoves = null;
+        TreeMap<String, SingleMoveAIResult> tmap;
 
         if(tMap != null) {
             tmap = tMap;
@@ -197,20 +193,20 @@ public class TictactoeAI {
         traverseMoves(tmap, cells, player, rowMax, colMax, count);
         if (tmap.size() > 0) {
             bestMoves = new ArrayList<>();
-            for(Map.Entry<String,BestMoveAIResult> entry : tmap.entrySet()){
+            for(Map.Entry<String, SingleMoveAIResult> entry : tmap.entrySet()){
                 bestMoves.add(entry.getValue());
             }
 
-            Collections.sort(bestMoves, Collections.<BestMoveAIResult>reverseOrder());
+            Collections.sort(bestMoves, Collections.<SingleMoveAIResult>reverseOrder());
         }
 
         return bestMoves;
     }
 
-    public static ArrayList<BestMoveAIResult> traverseMoves(TreeMap<String, BestMoveAIResult> tmap, TictactoeBox[][] cells, int player, int rowMax, int colMax, int count){
-        ArrayList<BestMoveAIResult> bestMoves = new ArrayList<>();
-        ArrayList<BestMoveAIResult> temp;
-        int opponent = invertPlayer(player);
+    public static ArrayList<SingleMoveAIResult> traverseMoves(TreeMap<String, SingleMoveAIResult> tmap, TictactoeBox[][] cells, int player, int rowMax, int colMax, int count){
+        ArrayList<SingleMoveAIResult> bestMoves = new ArrayList<>();
+        ArrayList<SingleMoveAIResult> temp;
+        int opponent = GameGlobals.invertPlayer(player);
 
         counter_1++;
 
@@ -226,7 +222,7 @@ public class TictactoeAI {
 
                         for(int z = 0; z < temp.size(); z++) {
 
-                            BestMoveAIResult move = temp.get(z);
+                            SingleMoveAIResult move = temp.get(z);
                             move.player = player;
 
                             //if cell is not in the list, then add it
@@ -262,8 +258,8 @@ public class TictactoeAI {
     }
 
 
-    public static ArrayList<BestMoveAIResult> checkForWin(TictactoeBox[][] cells, int player, int rowMax, int colMax, int count){
-        ArrayList<BestMoveAIResult> winningMoves = new ArrayList<>();
+    public static ArrayList<SingleMoveAIResult> checkForWin(TictactoeBox[][] cells, int player, int rowMax, int colMax, int count){
+        ArrayList<SingleMoveAIResult> winningMoves = new ArrayList<>();
         GameResult result;
 
         for(int i = 0; i < cells.length; i++) {
@@ -276,7 +272,7 @@ public class TictactoeAI {
 
                     if (result.result != GAME_NOT_ENDED && result.result != GAME_NO_MATCH) {
                         //TODO:this also adds if the move is a draw, which we kinda dont need atm
-                        winningMoves.add(new BestMoveAIResult(player, 1, cells[i][j]));
+                        winningMoves.add(new SingleMoveAIResult(player, 1, cells[i][j]));
                     }
                 }
             }
@@ -285,9 +281,9 @@ public class TictactoeAI {
         return winningMoves;
     }
 
-    public static BestMoveAIResult getBestOfTheBest(ArrayList<BestMoveAIResult> bestMoves, boolean bRandomIfSame){
+    public static SingleMoveAIResult getBestOfTheBest(ArrayList<SingleMoveAIResult> bestMoves, boolean bRandomIfSame){
         boolean bAllSame = true;
-        BestMoveAIResult theOne = null;
+        SingleMoveAIResult theOne = null;
 
         if (bestMoves.size() > 0) {
             theOne = bestMoves.get(0);
@@ -307,11 +303,11 @@ public class TictactoeAI {
         return theOne;
     }
 
-    public static BestMoveAIResult getBestOfTheBest(TreeMap<String,BestMoveAIResult> tmap) {
-        BestMoveAIResult best = new BestMoveAIResult(STATE_UNUSED, 0, 0, 0, null);
+    public static SingleMoveAIResult getBestOfTheBest(TreeMap<String, SingleMoveAIResult> tmap) {
+        SingleMoveAIResult best = new SingleMoveAIResult(STATE_UNUSED, 0, 0, 0, null);
 
         if(tmap != null) {
-            for (Map.Entry<String, BestMoveAIResult> entry : tmap.entrySet()) {
+            for (Map.Entry<String, SingleMoveAIResult> entry : tmap.entrySet()) {
                 if (entry.getValue().score > best.score) {
                     best = entry.getValue();
                 }
@@ -321,8 +317,8 @@ public class TictactoeAI {
         return best;
     }
 
-    public static BestMoveAIResult getRandomMove(ArrayList<BestMoveAIResult> moves){
-        BestMoveAIResult chosenMove = null;
+    public static SingleMoveAIResult getRandomMove(ArrayList<SingleMoveAIResult> moves){
+        SingleMoveAIResult chosenMove = null;
 
         if(moves != null) {
             Random random = new Random();

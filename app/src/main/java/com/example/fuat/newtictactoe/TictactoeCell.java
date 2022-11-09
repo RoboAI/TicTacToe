@@ -7,9 +7,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.AppCompatImageView;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.widget.AppCompatImageView;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import static com.example.fuat.newtictactoe.GameGlobals.STATE_O;
 import static com.example.fuat.newtictactoe.GameGlobals.STATE_UNUSED;
@@ -155,6 +156,12 @@ public class TictactoeCell extends AppCompatImageView implements CellInterface{
             } else if (player == GameGlobals.STATE_O){
                 setStateO();
             }
+            else {
+                Log.i("ABCDE", "Error: btnClicked: state=" + getState());
+            }
+        }
+        else {
+            Log.i("ABCDE", "Error: btnClicked: state=" + getState());
         }
     }
 

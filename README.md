@@ -33,4 +33,4 @@ There is some AI which helps decide the next best move. The TicTacToeAI.java is 
 
 ## The Grid
 
-The ComboChecker.java class has the ability to check an 'unlimited-size-grid' for possible outcomes. The Settings for the the Grid-Size utilises this function to vary the size of the TicTacToe Grid.
+The ComboChecker.java class has the ability to check an 'unlimited-size-grid' for all possible outcomes.

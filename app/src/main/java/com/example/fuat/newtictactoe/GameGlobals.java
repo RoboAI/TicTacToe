@@ -21,9 +21,9 @@ public class GameGlobals {
     static final int STATE_X = 1;
     static final int STATE_O = 2;
 
-    static final int PLAYER_NONE = STATE_UNUSED;
-    static final int PLAYER_X = STATE_X;
-    static final int PLAYER_O = STATE_O;
+    static final int PLAYER_NONE = 0;
+    static final int PLAYER_X = 1;
+    static final int PLAYER_O = 2;
 
     static final int GAME_NOT_ENDED = 10;
     static final int GAME_ENDED_X_WON = 11;
@@ -31,11 +31,13 @@ public class GameGlobals {
     static final int GAME_ENDED_DRAW = 13;
     static final int GAME_NO_MATCH = 14;
 
-    static final int PLAYER_HUMAN = STATE_O;
-    static final int PLAYER_AI = STATE_X;
+    //static final int PLAYER_HUMAN = PLAYER_O;
+    //static final int PLAYER_AI = PLAYER_X;
+    //static final int PLAYER_ONLINE = PLAYER_NONE;
 
-    static final int GAME_HUMAN_VS_HUMAN = 1;
-    static final int GAME_HUMAN_VS_AI = 2;
+    static final int GAME_HUMAN_VS_HUMAN = 200;
+    static final int GAME_HUMAN_VS_AI = 201;
+    static final int GAME_HUMAN_VS_ONLINE = 202;
 
     public static int convertStateToGameResult(int state){
         switch (state){
@@ -50,6 +52,11 @@ public class GameGlobals {
         return (player == STATE_X) ? STATE_O : STATE_X;
     }
 
+    /*TODO: this should setup an array of PLAYER_X and PLAYER_0 and
+            use array.size() instead of '2' (see below). Because currently, if
+            PLAYER_X or PLAYER_O index changes then this function wouldn't return
+            the correct value.
+    */
     public static int getRandomPlayer(){
         Random random = new Random();
         return random.nextInt(2) + 1;

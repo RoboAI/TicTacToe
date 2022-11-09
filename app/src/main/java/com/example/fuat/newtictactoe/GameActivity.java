@@ -2,10 +2,10 @@ package com.example.fuat.newtictactoe;
 
 import android.content.Intent;
 import android.graphics.Rect;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.SeekBar;
@@ -42,6 +42,7 @@ public class GameActivity extends AppCompatActivity implements
     private GameModel gameModel;
     private GameController gameController;
     private GameSession gameSession;
+    private TictactoeAI gameAI;
 
     private int colour;
 
@@ -78,6 +79,7 @@ public class GameActivity extends AppCompatActivity implements
         gameModel = new GameModel();
         gameController = new GameController();
         gameSession = new GameSession();
+        gameAI = new TictactoeAI();
 
         gameView = findViewById(R.id.gameContainer);
         playerTurnFrame = findViewById(R.id.playerTurnFrame);
@@ -99,6 +101,7 @@ public class GameActivity extends AppCompatActivity implements
         gameController.addInewGameStarted(sounds);
         gameController.addInewGameStarted(gameSession);
         gameController.addInewGameStarted(gameView);
+        gameController.addInewGameStarted(gameAI);
 
         //touch/cell inputs
         gameController.addIcellInteraction(gameGrid);
@@ -123,7 +126,8 @@ public class GameActivity extends AppCompatActivity implements
         //game is quitting
         gameController.addIgameIsQuitting(sounds);
 
-        gameController.setbAiToggle(((ToggleButton)findViewById(R.id.buttonAISwitch)).isChecked());
+        //set AI-Active state based on ai-toggle-button state
+        gameController.setAiActive(((ToggleButton)findViewById(R.id.buttonAISwitch)).isChecked());
 
         SeekBar sb = findViewById(R.id.musicVolume);
         sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -173,6 +177,7 @@ public class GameActivity extends AppCompatActivity implements
             }
         });
 
+
        // playerTurnDots.setLowDPImode(0);
         //winningComboSizeView.setLowDPImode(0);
     }
@@ -182,7 +187,7 @@ public class GameActivity extends AppCompatActivity implements
     }
 
     public void onClick_ToggleAI(View view){
-        gameController.setbAiToggle(((ToggleButton)view).isChecked());
+        gameController.setAiActive(((ToggleButton)view).isChecked());
     }
 
     public void onClick_Settings(View view){

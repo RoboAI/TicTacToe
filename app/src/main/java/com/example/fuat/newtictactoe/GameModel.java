@@ -13,7 +13,9 @@ public class GameModel {
 
     private int playerTurn;
     private int iAILevel;
-    private boolean bOpponentPlaying;
+
+    private TicTacToePlayer playerMaster;
+    private TicTacToePlayer playerOpponent;
 
     UndoManager undoManager;
 
@@ -24,14 +26,16 @@ public class GameModel {
     private void init() {
         cells = null;//this is setup in startNewGame
 
+        playerMaster = null;
+        playerOpponent = null;
+
         bGameEnded = true;
         gameWinComboCount = GameGlobals.DEFAULT_WIN_COMBO;
         gameGridSize = GameGlobals.DEFAULT_GRID_SIZE;
         moveCount = 0;
 
-        playerTurn = GameGlobals.STATE_O;
+        playerTurn = GameGlobals.PLAYER_O;
         iAILevel = GameGlobals.DEFAULT_AI_DIFFICULTY;
-        bOpponentPlaying = false;
 
         undoManager = new UndoManager();
     }
@@ -48,8 +52,12 @@ public class GameModel {
         return gameWinComboCount;
     }
 
-    public int getCurrentPlayer(){
+    public int getPlayerTurn(){
         return playerTurn;
+    }
+
+    private void setPlayerTurn(int newPlayer){
+        playerTurn = newPlayer;
     }
 
     public int getiAILevel(){
@@ -64,25 +72,34 @@ public class GameModel {
         return moveCount;
     }
 
+    public TicTacToePlayer getPlayerMaster() {
+        return playerMaster;
+    }
+
+    public void setPlayerMaster(TicTacToePlayer playerMaster) {
+        this.playerMaster = playerMaster;
+    }
+
+    public TicTacToePlayer getPlayerOpponent() {
+        return playerOpponent;
+    }
+
+    public void setPlayerOpponent(TicTacToePlayer playerOpponent) {
+        this.playerOpponent = playerOpponent;
+    }
+
     public void resetGame() {
         //TODO: timer.stop();
 
         undoManager.reset();
 
         if(cells != null) {
-            for (TictactoeBox[] cell : cells) {
-                for (int j = 0; j < cell.length; j++) {
-                    cell[j].reset();
-                    cell[j].setStateBlank();
-                }
-            }
-
-            setPlayerTurn(getRandomPlayer());
+            resetCellsArray();
         }
 
-        bOpponentPlaying = false;
-
-        bGameEnded = false;
+        playerTurn = GameGlobals.PLAYER_NONE;
+        bGameEnded = true;
+        moveCount = 0;
     }
 
     public void startNewGame(){
@@ -92,26 +109,18 @@ public class GameModel {
     public void startNewGame(int gridSize, int numberOfWinBoxes, int aiLevel) {
         resetGame();
 
-        iAILevel = aiLevel;
+        playerTurn = GameGlobals.getRandomPlayer();
 
+        iAILevel = aiLevel;
         gameGridSize = gridSize;
         gameWinComboCount = numberOfWinBoxes;
 
-        moveCount = 0;
+        setupCellsArray(gridSize, gridSize);
 
-        setupArray(gridSize, gridSize);
-
-        TictactoeAI.initialiseGridString(gameGridSize, gameGridSize);
-
-        //TODO:
-        /*
-        if (buttonAISwitch.isChecked() && bPlayerTurn == PLAYER_X) {
-            startAIMove();
-        }
-        */
+        bGameEnded = false;
     }
 
-    private void setupArray(int row_count, int col_count){
+    private void setupCellsArray(int row_count, int col_count){
         cells = new TictactoeBox[row_count][col_count];
 
         for (int i = 0; i < row_count; i++) {
@@ -119,6 +128,19 @@ public class GameModel {
                 TictactoeBox cell = new TictactoeBox(i, j);
                 cell.setStateBlank();
                 cells[i][j] = cell;
+            }
+        }
+
+        //TODO: TictactoeAI should setup a callback (INewGameStarted) and call
+        //TODO: initialiseGridString() itself.
+        //call this so AI-Class does some preparation for changes
+     //   TictactoeAI.initialiseGridString(row_count, col_count);
+    }
+
+    private void resetCellsArray(){
+        for (TictactoeBox[] cell : cells) {
+            for (int j = 0; j < cell.length; j++) {
+                cell[j].reset();
             }
         }
     }
@@ -168,6 +190,7 @@ public class GameModel {
 
     public GameResult playCell(int row, int col, int player) {
         if (!bGameEnded) {
+            int temp = cells[row][col].getState();
             if (cells[row][col].getState() == STATE_UNUSED) {
 
                 storeLastCellPlayed(row, col, player);
@@ -202,9 +225,5 @@ public class GameModel {
 
     public void nextPlayerTurn(){
         setPlayerTurn(GameGlobals.invertPlayer(playerTurn));
-    }
-
-    private void setPlayerTurn(int newPlayer){
-        playerTurn = newPlayer;
     }
 }

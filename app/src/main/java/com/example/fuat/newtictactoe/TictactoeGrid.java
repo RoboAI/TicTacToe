@@ -6,8 +6,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.support.v7.view.ContextThemeWrapper;
+import androidx.appcompat.view.ContextThemeWrapper;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TableLayout;
@@ -246,6 +247,23 @@ public class TictactoeGrid extends TableLayout
     @Override
     public void cellClicked(SingleMove singleMove) {
         cells[singleMove.row][singleMove.col].btnClicked(singleMove.player);
+        int count_o = 0;
+        int count_x = 0;
+        int count_empty = 0;
+        int count_other = 0;
+        for (TictactoeCell[] cell : cells) {
+            for (int j = 0; j < cell.length; j++) {
+                if(cell[j].getState() == GameGlobals.STATE_O)
+                    count_o++;
+                else if(cell[j].getState() == GameGlobals.STATE_X)
+                    count_x++;
+                else if(cell[j].getState() == GameGlobals.STATE_UNUSED)
+                    count_empty++;
+                else
+                    count_other++;
+            }
+        }
+        Log.i("ABCDEF", "cellClicked: " + count_o + " : " + count_x + " : " + count_empty + " : " + count_other);
     }
 
     @Override
